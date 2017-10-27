@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<!-- Integrieren einer Textur -->
 		<title>NoNoNoYesNo</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
@@ -14,16 +13,12 @@
 		<script src="https://player.vimeo.com/api/player.js"></script>
 
 		<link rel="stylesheet" type="text/css" href="styles6.css">
-		<!--<link href="https://fonts.googleapis.com/css?family=Parisienne" rel="stylesheet">-->
-		<link href="https://fonts.googleapis.com/css?family=The+Girl+Next+Door" rel="stylesheet">
-
-
 
 	</head>
 
 	<body>
 
-		<script src="three.js"></script>
+		<script src="three.js"></script> <!-- update?-->
 
 		<script src="js/Detector.js"></script>
 		<script src="js/libs/stats.min.js"></script>
@@ -33,62 +28,42 @@
 		<script src="js/shaders/CopyShader.js"></script>
 		<script src="js/shaders/FXAAShader.js"></script>
 
+		<script src="js/renderers/Projector.js"></script>
+		<script src="js/renderers/CanvasRenderer.js"></script>
+
 		<script src="js/postprocessing/EffectComposer.js"></script>
 		<script src="js/postprocessing/RenderPass.js"></script>
 		<script src="js/postprocessing/ShaderPass.js"></script>
 		<script src="js/postprocessing/MaskPass.js"></script>
-	
 
+		<script src="js/loaders/LoadingManager.js"></script>
 
+			
 		<!-- PLAY AMBIENT SOUND -->
-		<audio id="ambientSound" src="sounds/AmbientSound_Tongue.mp3" preload="auto"></audio>
-
-			<script type="text/javascript">
-			    $(document).ready(function(){
-			        $('#ambientSound')[0].play();
-			    });
-			    
-		</script>
+		<!-- <audio id="ambientSound" src="sounds/AmbientSound_Tongue.mp3" preload="auto"></audio>
+		<script type="text/javascript">
+		    $(document).ready(function(){
+		        $('#ambientSound')[0].play();
+		    });
+		</script>-->
 
 		<!-- ALLES -->
 
 		<div id="container2"> 
 
-		<!-- VIDEO ZUNGE -->
+			<!-- VIDEO ZUNGE -->
 
-		<!--
+			<div id="videocover">
 
-			<div id="video_container">
+				<video id="myVideo">
+					  <source src="videos/TongueTrim.mp4" type="video/mp4">
+					  Your browser does not support HTML5 video.
+				</video>
 
-
-				<script>
-
-					$(document).ready(function(){
-			
-					   $(document).on("click", function() {
-					    	//e.preventDefault();
-
-					    	var iframe = $('#video_container');
-	
-
-					 		iframe.html('<iframe src="https://player.vimeo.com/video/238232509?autoplay=1&title=0&byline=0&portrait=0" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>');	
-
-					 		var player = new Vimeo.Player(iframe);
-
-					   		player.on('ended', function() {
-						    	$('#video_container').remove();
-						        console.log('Finished.');
-					    	});
-					  
-						});
-
-					});
-
-				</script>
-			</div> -->
-
- 	
+			</div>						
+		
 		<!-- ZUNGE -->
+
 			<div id = "tongue">
 
 				<script>
@@ -99,12 +74,15 @@
 
 					var statsEnabled = true;
 					var container, stats, loader;
-					var camera, scene, renderer;
-					var mesh, materialShader;
-					var settings = {	
-						displacementScale: 0, 
-					};
+					var camera, camera2, scene, scene2, renderer;
+					var mesh, newMesh, newMesh2, mesh2, materialShader, materialShader2;
+
+					var material;
+					
 					var spotLight;
+
+					var raycaster;
+					var mouse;
 
 					var mouseX = 0;
 					var mouseY = 0;
@@ -112,15 +90,29 @@
 					var targetX = 0;
 					var targetY = 0;
 
+					var clickHandler = false;
+
 					var windowHalfX = window.innerWidth / 2;
 					var windowHalfY = window.innerHeight / 2;
 
 					var clock = new THREE.Clock();
+					var manager = new THREE.LoadingManager();
+					var textureCube;
 
+					var cameraDistanceX = 3000;
+					var cameraDistanceZ = 3000;
+					var cameraDistanceStartX = 1000;
+					var cameraDistanceStartZ = 1000;
 
+					var currentMousePos = { x: -1, y: -1 };
 
-					// PHYSICS VARIABLES
+					var click7;
 
+					var numClicks = 0;
+					var vid = document.getElementById("myVideo");
+					vid.style.display = "none";
+
+					var objects = [];
 
 					// MAIN CODE //////////////////////////////////////////
 
@@ -128,34 +120,54 @@
 					animate();
 
 
-
-
 					///////////////////////////////////////////////////////////////
 
 					function init() {
 
+
+						//notwendig?
 						container = document.createElement( 'div' );
 						document.body.appendChild( container );
+
+						// area that gets fired as soon as mouse enters, can be deleted later
+
+						triggerBox = document.createElement( 'div' ); 
+						triggerBox.setAttribute( "id" , "triggerBox" );
+						document.body.appendChild( triggerBox );
 
 						// SCENE
 
 						camera = new THREE.PerspectiveCamera( 27, window.innerWidth / window.innerHeight, 1, 100000 );
 						camera.position.z = 2000;
 
-						// Background Texture
+						// BACKGROUND & MATERIALS
 
-						var textureCube = new THREE.CubeTextureLoader()
-							.setPath( 'textures/cube/Tongue2/')
+						var textureLoader = new THREE.TextureLoader(manager);
+						var mapHeight = new THREE.TextureLoader(manager).load( "models/Tongue_Bump.jpg" );
+						var displacementMap = textureLoader.load( "models/Tongue_Bump.jpg" );
+					
+						material = new THREE.MeshPhongMaterial( {							
+							specular: 0xffffff,
+							shininess: 100,
+							map: new THREE.TextureLoader(manager).load('models/Tongue_Diffuse.jpg'),
+							bumpMap: mapHeight,
+							bumpScale: 10,
+						} );
+
+						var material2 = material;
+
+						textureCube = new THREE.CubeTextureLoader(manager)
+							.setPath( 'textures/')
 							.load( [ 'posx.jpg', 'negx.jpg', 'posy.jpg', 'negy.jpg', 'posz.jpg', 'negz.jpg' ] );
 
 						scene = new THREE.Scene();
-						scene.background = textureCube;
+						scene2 = new THREE.Scene();
 
-						// LIGHTS
+						// LIGHTS SCENE 1
 
 						scene.add( new THREE.HemisphereLight( 0xb33939, 0xfe7cff ) );
 
-						var ambientlight = new THREE.AmbientLight( 0x404040 ); // soft white light
+						var ambientlight = new THREE.AmbientLight( 0x404040 ); 
 						scene.add( ambientlight );
 
 						spotLight = new THREE.SpotLight( 0x7348ff, 2 );
@@ -167,6 +179,11 @@
 						spotLight2.position.set( -0.5, 0, -1 );
 						spotLight2.position.multiplyScalar( 700 );
 						scene.add( spotLight2 );
+
+						spotLight3 = new THREE.SpotLight( 0x6945ef, 2 );
+						spotLight3.position.set( -0.5, 0.3, 0.5 );
+						spotLight3.position.multiplyScalar( 5000 );
+						scene.add( spotLight3 ); 	
 
 						spotLight.castShadow = false;
 
@@ -180,74 +197,54 @@
 
 						spotLight.shadow.bias = -0.005;
 
-						// MATERIALS 
+						// LIGHTS SCENE 2
 
-						var textureLoader = new THREE.TextureLoader();
-						var mapHeight = new THREE.TextureLoader().load( "models/obj_tongue/Tongue_Bump.jpg" );
-						var displacementMap = textureLoader.load( "models/obj_tongue/Tongue_Bump.jpg" );
+						spotLight = new THREE.SpotLight( 0x7348ff, 2 );
+						spotLight.position.set( 0.2, 0, 1 );
+						spotLight.position.multiplyScalar( 700 );
+						scene2.add( spotLight );
 
-						var material = new THREE.MeshPhongMaterial( {
-							
-							specular: 0xffffff,
-							shininess: 100,
-							map: new THREE.TextureLoader().load('models/Tongue_Diffuse.jpg'),
-							bumpMap: mapHeight,
-							bumpScale: 10,
-							displacementMap: displacementMap,
-							displacementScale: settings.displacementScale
-						} );
+						spotLight2 = new THREE.SpotLight( 0x7348ff, 2 );
+						spotLight2.position.set( -0.2, 0, -1 );
+						spotLight2.position.multiplyScalar( 700 );
+						scene2.add( spotLight2 );
+
+						spotLight3 = new THREE.SpotLight( 0x6945ef, 2 );
+						spotLight3.position.set( -0.5, 0.3, 0.5 );
+						spotLight3.position.multiplyScalar( 5000 );
+						scene2.add( spotLight3 );
 
 
-						// SHADERS
+						// SHADERS 
 
-						material.onBeforeCompile = function ( shader ) {
-
-							// console.log( shader )
-
-							shader.uniforms.time = { value: 0 };
-
-							shader.vertexShader = 'uniform float time;\n' + shader.vertexShader;
-							shader.vertexShader = shader.vertexShader.replace(
-								'#include <begin_vertex>',
-								[
-									'float theta = sin( time + position.y ) / 2.0;',
-									'float c = cos( theta );',
-									'float s = sin( theta );',
-									'mat3 m = mat3( c, 0, s, 0, 1, 0, -s, 0, c );',
-									'vec3 transformed = vec3( position ) * m;',
-									'vNormal = vNormal * m;'
-								].join( '\n' )
-							);
-
-							materialShader = shader;
-
-						};
-
-						
-						
+						switchShader();
+					
 						// GEOMETRY
 
-						loader = new THREE.JSONLoader();
+						loader = new THREE.JSONLoader(manager);
 						loader.load( "models/tongue_new.json", function( geometry ) {
 
 							mesh = new THREE.Mesh( geometry, material );
+							mesh.id = 5;
+
+							objects.push( mesh );
+
+							mesh2 = new THREE.Mesh( geometry, material2 ); 
+							mesh2.id = 3;
+							objects.push( mesh2 );
 
 							mesh.position.y = - 50;
 							mesh.scale.setScalar( 200 );
 
-							mesh.castShadow = false;
-							mesh.receiveShadow = false;
-
-							// duplicate mesh
-							var newMesh = mesh.clone();
-
-							newMesh.position.y = + 50;
-							
-
-							scene.add( mesh );
-							scene.add( newMesh );
-								
+							mesh.castShadow = true;
+							mesh.receiveShadow = true;
+															
 						} );
+
+						// RAYCASTER
+
+						raycaster = new THREE.Raycaster();
+						mouse = new THREE.Vector2();
 
 
 						// RENDERER
@@ -258,8 +255,8 @@
 						renderer.setSize( window.innerWidth, window.innerHeight );
 						renderer.setFaceCulling( THREE.CullFaceNone );
 
-						renderer.shadowMap.enabled = false;
-						renderer.shadowMap.renderReverseSided = false;
+						renderer.shadowMap.enabled = true;
+						renderer.shadowMap.renderReverseSided = true;
 
 						container.appendChild( renderer.domElement );
 
@@ -279,6 +276,119 @@
 
 						document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 						window.addEventListener( 'resize', onWindowResize, false );
+						document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+						document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+
+						
+					}
+
+					///////////////////////////////////////////////////////////////
+
+					$(document).on('click',	function() {
+
+						numClicks++;	
+						console.log(numClicks);
+
+						if ( numClicks == 7 ){
+							//showVideo();
+							//removeMesh();
+							numClicks = 0;
+						}
+					});
+
+					function onDocumentTouchStart( event ) {
+
+						event.preventDefault();
+
+						event.clientX = event.touches[0].clientX;
+						event.clientY = event.touches[0].clientY;
+						onDocumentMouseDown( event );
+
+					}
+
+
+					////// find right tongue to milk
+
+					function onDocumentMouseDown( event ) {
+
+						//event.preventDefault();
+
+						mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
+						mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+
+						raycaster.setFromCamera( mouse, camera );
+
+						var intersects = raycaster.intersectObjects( objects );
+
+						if ( intersects.length > 0 ) { // 0. STelle im Array und mit der id "5" hab ich vergeben
+
+							alert("ja");
+
+						}
+
+					}
+
+
+					function showVideo() { 
+
+						vid.style.display = "block";
+						vid.play();
+
+						// removes video after finish
+						vid.onended = function() {
+							vid.style.display = "none";
+						};
+
+					}	
+
+					///////////////////////////////////////////////////////////////
+
+					function switchShader() {
+
+							material.onBeforeCompile = function ( shader ) {
+
+								// materialShader
+
+								shader.uniforms.time = { value: 0 };
+
+								shader.vertexShader = 'uniform float time;\n' + shader.vertexShader;
+								shader.vertexShader = shader.vertexShader.replace(
+									'#include <begin_vertex>',
+									[
+										'float theta = sin( time + position.y ) / 2.0;',
+										'float c = cos( theta );',
+										'float s = sin( theta );',
+										'mat3 m = mat3( c, '+ (mouseX * 0.01) +', s, '+ (mouseY * 0.05) +', 1, 0, -s, 0, c );',
+										'vec3 transformed = vec3( position ) * m;',
+										'vNormal = vNormal * m;'
+									].join( '\n' )
+								);
+
+								materialShader = shader;
+
+							};
+						
+
+						/*material2.onBeforeCompile = function ( shader ) {
+
+							// materialShader2
+							shader.uniforms.time = { value: 1 };
+
+							shader.vertexShader = 'uniform float time;\n' + shader.vertexShader;
+							shader.vertexShader = shader.vertexShader.replace(
+								'#include <begin_vertex>',
+								[
+									'float theta = sin( time + position.y ) / 2.0;',
+									'float c = 1.0;',
+									'float s = sin( time + position.x );',
+									'mat3 m = mat3( c, 10, s, 2, 1, 0, -s, 0, c );',
+									'vec3 transformed = vec3( position ) * m;',
+									'vNormal = vNormal * m;'
+								].join( '\n' )
+							);
+
+							materialShader2 = shader; 
+						};*/
 
 					}
 
@@ -306,38 +416,104 @@
 
 					}
 
+
 					///////////////////////////////////////////////////////////////
 
 					function animate() {
 
 						requestAnimationFrame( animate );
+						if ( numClicks == 6 ){
 
-						render();
+							render2();
+						} else {
+							render();
+						}
 						if ( statsEnabled ) stats.update();
+
+						update();
 
 					}
 
+					function update() {
+			
+							var delta = clock.getDelta();
+
+						}
+
+					manager.onLoad = function ( ) {
+
+						console.log( 'Loading complete!');
+
+						// SCENE 1
+						newMesh = mesh.clone();
+						newMesh.position.y = + 50;
+						scene.background = textureCube;
+
+						scene.add( mesh );
+						scene.add( newMesh );
+
+						// SCENE 2
+						newMesh2 = mesh.clone(); 
+						newMesh2.rotation.x = + 100; 
+		
+						scene2.background = textureCube;
+						scene2.add( newMesh2 ); 
+
+					};
+
+
+					function removeMesh() {
+					  scene.remove(newMesh2);
+					}	
+
 					///////////////////////////////////////////////////////////////
+
+					/*var incrementX = 1;
+					var incrementZ = 1;
+
+					$(document).ready( function() {
+     					$(document).on('click',	function increment(){
+							incrementX ++;
+							incrementZ ++;
+							console.log("click");
+
+							cameraDistanceX = cameraDistanceStartX + (incrementX * 1)
+							cameraDistanceZ = cameraDistanceStartZ + (incrementZ * 1)
+							
+							console.log(cameraDistanceX);
+							
+							setInterval( increment, 1000 );
+							if (cameraDistanceX == 300){
+								return;
+							}
+
+						});
+
+					});*/
+
+					///////////////////////////////////////////////////////////////
+
 
 					function render() {
 
 						var timer = -0.0002 * Date.now();
 
-						camera.position.x = 2000 * Math.cos( timer );
+						camera.position.x = cameraDistanceX * Math.cos( timer );
 						camera.position.y += ( - mouseY - camera.position.y ) * .05;
-						camera.position.z = 2000 * Math.sin( timer );
+						camera.position.z = cameraDistanceX * Math.sin( timer );
 
 						camera.lookAt( scene.position );
 
-						targetX = mouseX * .001;
-						targetY = mouseY * .001;
+						targetX = mouseX * .001; // remove später
+						targetY = mouseY * .001; // remove später
 
 						if ( mesh ) {
 
 							mesh.rotation.y += 0.05 * ( targetX - mesh.rotation.y + 5); // + = Anfangsdrehung
 							mesh.rotation.x += 0.05 * ( targetY - mesh.rotation.x + 1);
 
-						}
+						}	
+
 
 						if ( materialShader ) {
 
@@ -345,8 +521,36 @@
 
 						}
 
+						if ( materialShader2 ) {
+
+							materialShader2.uniforms.time.value = performance.now() / 1000;
+
+						} 
 
 						renderer.render( scene, camera );
+
+					}
+
+					function render2() {
+
+						var timer = -0.0002 * Date.now();
+
+						camera.position.x = cameraDistanceX * Math.cos( timer );
+						camera.position.y += ( - mouseY - camera.position.y ) * .05;
+						camera.position.z = cameraDistanceX * Math.sin( timer );
+
+						camera.lookAt( scene2.position );
+
+						if ( newMesh2 ) {
+
+							mesh.rotation.y += 0.05 * ( targetX - mesh.rotation.y + 5); // + = Anfangsdrehung
+							mesh.rotation.x += 0.05 * ( targetY - mesh.rotation.x + 1);
+
+						}
+
+						spotLight.position.set( currentMousePos.x, currentMousePos.y, 10 );
+
+						renderer.render( scene2, camera );
 
 					}
 
@@ -354,6 +558,8 @@
 			</div>
 
 		<!-- TEXT /////////////////////////////////////////////////////////////// -->
+
+
 			<div id="Timestamps">
 				<p id="Timestamp1"></p>
 				<p id="Timestamp2"></p>
@@ -369,6 +575,10 @@
 					<p id="demo"></p>
 				</div>		
 			
+			<!-- //////////////////////////////// GENERAL SCRIPTS ////////////////////////////////////////// -->
+
+
+			<!-- //////////////////////////////// SCRIPT TEXT ////////////////////////////////////////// -->
 
 			<script>
 
@@ -384,36 +594,6 @@
 				var index = 0;
 				var delay = 500; // Schnelligkeit des Abspielens von Text, 100
 				
-				$('#background').css('background', 'rgba(255, 255, 255, 0)');
-
-				// Counting clicks
-
-				function ClicksPerSecCounter () {
-					var numClicks = 0, secondsSpent = 0;
-					document.onclick = function () {
-					    numClicks++;
-					    console.log(numClicks);
-
-					    if (numClicks == 7) {
-					    	numClicks =0;
-
-
-					    }
-					};
-					
-					this.secondsIntervalID = setInterval(function () {
-					    secondsSpent++;
-					  }, 1000);
-
-					this.clicksPerSecond = function () {
-					    return numClicks / secondsSpent;
-					  }
-					}
-					 
-					var cpsCounter = new ClicksPerSecCounter();
-					 
-					cpsCounter.clicksPerSecond() // returns desired value
-
 				// findet index eines bestimmten Wortes heraus
 				//document.getElementById("demo").innerHTML = words1.indexOf("xoxoxo"); 
 				/* Indices Timestamp
@@ -425,10 +605,9 @@
 				[11:55:44 pm]: Stamp 6: 605; Michael
 				[11:45:39 pm]: Stamp 7: 607; xoxoxo */
 
-				
-
 				setTimeout(function() { 
 
+					
 					var myVar = setInterval(myTimer, delay);
 
 					function myTimer() {
@@ -482,8 +661,6 @@
 
 			 	 }, 5000);
 					
-				
-
 			</script>
 
 			<!--
@@ -536,10 +713,7 @@
 
 			</div> -->
 
-
 			<!-- Video -->
-
-			
 
 		<!-- ALLES ZU -->
 		</div> 

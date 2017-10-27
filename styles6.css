@@ -1,4 +1,4 @@
-﻿  /* DIE DEFAULT GRÖSSEN SIND FÜR MOBIL UND DEFAULT */
+  /* DIE DEFAULT GRÖSSEN SIND FÜR MOBIL UND DEFAULT */
 body {
 
   padding:0;
@@ -15,8 +15,8 @@ p {
   font-family: "Arial Narrow", Arial, sans-serif;
   /*font-family: 'The Girl Next Door', cursive;*/
   font-size:100px;  
-  padding:0;
-  margin:0;
+  /*padding:0;
+  margin:0;*/
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke-width: 3px;
   -webkit-text-stroke-color: red;
@@ -25,6 +25,10 @@ p {
 
   
 
+}
+
+#transitionLayer{
+  color: black;
 }
 
 #button{
@@ -82,8 +86,8 @@ p {
 
     text-align:left; 
     font-size:20px; 
-    -webkit-text-stroke-width: 3px; 
-    filter: blur(1px);
+    /*-webkit-text-stroke-width: 3px; 
+    filter: blur(1px);*/
 
   }
 
@@ -96,10 +100,12 @@ p {
 }
 
 #background {
-    transition: background 0.5s linear;
-    -webkit-transition: background 3s linear;
+    /*transition: background 0.5s linear;
+    -webkit-transition: background 3s linear;*/
     height: 100%;
     width: 100%;
+    /*background-color: black;*/
+    /*position: absolute;*/
 }
 
 #video_container{
@@ -115,8 +121,19 @@ p {
   #Timestamp1, #Timestamp2, #Timestamp3, #Timestamp4, #Timestamp5, #Timestamp6, #Timestamp7 {
 
     font-size: 100px; 
-    -webkit-text-stroke-width: 1px; 
-    filter: blur(2px);}
 
+    
+}
+
+#tongue{
+  
+}
+
+
+#black{
+  position: absolute;
+  background-color: black;
+  width:100vh;
+  height:100vh;
 }
 
