@@ -14,13 +14,13 @@ p {
 
   font-family: "Arial Narrow", Arial, sans-serif;
   /*font-family: 'The Girl Next Door', cursive;*/
-  font-size:100px;  
+  font-size:150px;  
   /*padding:0;
   margin:0;*/
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke-width: 3px;
-  -webkit-text-stroke-color: red;
-  filter: blur(2px);
+  -webkit-text-stroke-color: black;
+  filter: blur(0px);
   text-align: center;
 
   
