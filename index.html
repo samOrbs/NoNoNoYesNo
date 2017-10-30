@@ -73,16 +73,29 @@
 					// //Create an AudioListener and add it to the camera
 					var listenerOne = new THREE.AudioListener();
 					var listenerTwo = new THREE.AudioListener();
+					var listenerThree = new THREE.AudioListener();
+					var listenerFour = new THREE.AudioListener();
+					var listenerFive = new THREE.AudioListener();
+
+
 
 					// 	camera.add( listener );
 
 					// // create a global audio source
 					var soundOne = new THREE.Audio( listenerOne );
 					var soundTwo = new THREE.Audio( listenerTwo );
+					var soundThree = new THREE.Audio( listenerThree );
+					var soundFour = new THREE.Audio( listenerThree );
+					var soundFive = new THREE.Audio( listenerThree );
+
 
 
 					var audioLoaderOne = new THREE.AudioLoader();
 					var audioLoaderTwo = new THREE.AudioLoader();
+					var audioLoaderThree = new THREE.AudioLoader();
+					var audioLoaderFour = new THREE.AudioLoader();
+					var audioLoaderFive = new THREE.AudioLoader();
+
 
 
 					// //Load a sound and set it as the Audio object's buffer
@@ -92,7 +105,7 @@
 						
 					soundOne.setLoop(true);
 						
-					soundOne.setVolume(0.5);
+					soundOne.setVolume(1.2);
 						
 					soundOne.play();
 					
@@ -105,9 +118,54 @@
 					
 					soundTwo.setLoop(true);
 					
-					soundTwo.setVolume(0.5);
+					soundTwo.setVolume(1.2);
 					
 					soundTwo.play();
+					
+					});
+
+					
+					audioLoaderThree.load( 'sounds/Tounge_Amb.ogg', function( Cbuffer ) {
+					
+					soundThree.setBuffer( Cbuffer );
+					 
+					soundThree.setLoop(true);
+					
+					soundThree.setVolume(0.5); 
+					
+					soundThree.setPlaybackRate(1); // can play here 4 is also nice
+
+					soundThree.play();					
+					
+					});
+
+					
+					audioLoaderFour.load( 'sounds/noiseBursts.ogg', function( Dbuffer ) {
+					
+					soundFour.setBuffer( Dbuffer );
+					 
+					soundFour.setLoop(true);
+					
+					soundFour.setVolume(0.2); 
+					
+					soundFour.setPlaybackRate(1); 
+
+					soundFour.play();
+					
+					});
+
+
+				    audioLoaderFive.load( 'sounds/pandon.ogg', function( Ebuffer ) {
+					
+					soundFive.setBuffer( Ebuffer );
+					 
+					soundFive.setLoop(true);
+					
+					soundFive.setVolume(0.01); 
+					
+					soundFive.setPlaybackRate(1); 
+
+					soundFive.play();
 					
 					});
 
@@ -549,8 +607,9 @@
 
 
 					function render() {
-					soundOne.setPlaybackRate( 0.2+((mouseX*0.00001)+(mouseY*0.00001)));
-					soundTwo.setPlaybackRate(0.2+((mouseX*-0.00001)+(mouseY*0.00001)));
+					soundOne.setPlaybackRate( 0.2+((mouseX*0.000015)+(mouseY*0.000015)));
+					soundTwo.setPlaybackRate(0.2+((mouseX*-0.000015)+(mouseY*0.000015)));
+
 
 
 						var timer = -0.0002 * Date.now();
