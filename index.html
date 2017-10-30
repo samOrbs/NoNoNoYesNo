@@ -71,22 +71,48 @@
 					////////////////////
 
 					// //Create an AudioListener and add it to the camera
-						var listener = new THREE.AudioListener();
+					var listenerOne = new THREE.AudioListener();
+					var listenerTwo = new THREE.AudioListener();
+
 					// 	camera.add( listener );
 
 					// // create a global audio source
-						var sound = new THREE.Audio( listener );
+					var soundOne = new THREE.Audio( listenerOne );
+					var soundTwo = new THREE.Audio( listenerTwo );
 
-						var audioLoader = new THREE.AudioLoader();
+
+					var audioLoaderOne = new THREE.AudioLoader();
+					var audioLoaderTwo = new THREE.AudioLoader();
+
 
 					// //Load a sound and set it as the Audio object's buffer
-						audioLoader.load( 'sounds/SC_171016_123927.ogg', function( buffer ) {
-						sound.setBuffer( buffer );
-						sound.setLoop(true);
-						sound.setVolume(0.5);
+					audioLoaderOne.load( 'sounds/Left.ogg', function( Abuffer ) {
+						
+					soundOne.setBuffer( Abuffer );
+						
+					soundOne.setLoop(true);
+						
+					soundOne.setVolume(0.5);
+						
+					soundOne.play();
+					
+					});	
+						
 
-						// sound.play();
-						});
+					audioLoaderTwo.load( 'sounds/Right.ogg', function( Bbuffer ) {
+					
+					soundTwo.setBuffer( Bbuffer );
+					
+					soundTwo.setLoop(true);
+					
+					soundTwo.setVolume(0.5);
+					
+					soundTwo.play();
+					
+					});
+
+
+
 
 					
 					///////////////////
@@ -523,7 +549,8 @@
 
 
 					function render() {
-													sound.setPlaybackRate(mouseX);
+					soundOne.setPlaybackRate( 0.2+(mouseX*0.0005));
+					soundTwo.setPlaybackRate(0.2+(mouseX*-0.0005));
 
 						var timer = -0.0002 * Date.now();
 
