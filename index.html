@@ -549,8 +549,9 @@
 
 
 					function render() {
-					soundOne.setPlaybackRate( 0.2+(mouseX*0.0005));
-					soundTwo.setPlaybackRate(0.2+(mouseX*-0.0005));
+					soundOne.setPlaybackRate( 0.2+((mouseX*0.00001)+(mouseY*0.00001)));
+					soundTwo.setPlaybackRate(0.2+((mouseX*-0.00001)+(mouseY*0.00001)));
+
 
 						var timer = -0.0002 * Date.now();
 
