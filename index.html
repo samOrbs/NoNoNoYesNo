@@ -68,6 +68,30 @@
 
 				<script>
 
+					////////////////////
+
+					// //Create an AudioListener and add it to the camera
+						var listener = new THREE.AudioListener();
+					// 	camera.add( listener );
+
+					// // create a global audio source
+						var sound = new THREE.Audio( listener );
+
+						var audioLoader = new THREE.AudioLoader();
+
+					// //Load a sound and set it as the Audio object's buffer
+						audioLoader.load( 'sounds/SC_171016_123927.ogg', function( buffer ) {
+						sound.setBuffer( buffer );
+						sound.setLoop(true);
+						sound.setVolume(0.5);
+
+						// sound.play();
+						});
+
+					
+					///////////////////
+
+
 					if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 					// GLOBAL VARIABLES
@@ -426,7 +450,9 @@
 
 						requestAnimationFrame( animate );
 						if ( numClicks == 6 ){
+
 							render2();
+
 						} else {
 							render();
 						}
@@ -437,7 +463,7 @@
 					}
 
 					function update() {
-			
+
 							var delta = clock.getDelta();
 
 						}
@@ -497,6 +523,7 @@
 
 
 					function render() {
+													sound.setPlaybackRate(mouseX);
 
 						var timer = -0.0002 * Date.now();
 
@@ -508,6 +535,7 @@
 
 						targetX = mouseX * .001; // remove später
 						targetY = mouseY * .001; // remove später
+
 
 						if ( mesh ) {
 
