@@ -76,62 +76,64 @@
 					var listenerThree = new THREE.AudioListener();
 					var listenerFour = new THREE.AudioListener();
 					var listenerFive = new THREE.AudioListener();
-
-
-
-					// 	camera.add( listener );
+					var listenerSix = new THREE.AudioListener();
+					var listenerSeven = new THREE.AudioListener();
+					var listenerEight = new THREE.AudioListener();
 
 					// // create a global audio source
 					var soundOne = new THREE.Audio( listenerOne );
 					var soundTwo = new THREE.Audio( listenerTwo );
 					var soundThree = new THREE.Audio( listenerThree );
-					var soundFour = new THREE.Audio( listenerThree );
-					var soundFive = new THREE.Audio( listenerThree );
+					var soundFour = new THREE.Audio( listenerFour );
+					var soundFive = new THREE.Audio( listenerFive );
+					var soundSix = new THREE.Audio( listenerSix );
+					var soundSeven = new THREE.Audio( listenerSeven );
+					var soundEight = new THREE.Audio( listenerEight );
 
-
-
+					//Loaders
 					var audioLoaderOne = new THREE.AudioLoader(manager);
 					var audioLoaderTwo = new THREE.AudioLoader(manager);
 					var audioLoaderThree = new THREE.AudioLoader(manager);
 					var audioLoaderFour = new THREE.AudioLoader(manager);
 					var audioLoaderFive = new THREE.AudioLoader(manager);
-
-
+					var audioLoaderSix = new THREE.AudioLoader(manager);
+					var audioLoaderSeven = new THREE.AudioLoader(manager);
+					var audioLoaderEight = new THREE.AudioLoader(manager);
 
 					// //Load a sound and set it as the Audio object's buffer
-					audioLoaderOne.load( 'sounds/Left.ogg', function( Abuffer ) {
+					audioLoaderOne.load( 'sounds/LeftFade.ogg', function( Abuffer ) {
 						
 					soundOne.setBuffer( Abuffer );
 						
 					soundOne.setLoop(true);
 						
-					soundOne.setVolume(1.2);
+					soundOne.setVolume(2);
 						
 					soundOne.play();
 					
 					});	
 						
 
-					audioLoaderTwo.load( 'sounds/Right.ogg', function( Bbuffer ) {
+					audioLoaderTwo.load( 'sounds/RightFade.ogg', function( Bbuffer ) {
 					
 					soundTwo.setBuffer( Bbuffer );
 					
 					soundTwo.setLoop(true);
 					
-					soundTwo.setVolume(1.2);
+					soundTwo.setVolume(2);
 					
 					soundTwo.play();
 					
 					});
 
 					
-					audioLoaderThree.load( 'sounds/Tounge_Amb.ogg', function( Cbuffer ) {
+					audioLoaderThree.load( 'sounds/Fairchild_101.ogg', function( Cbuffer ) {
 					
 					soundThree.setBuffer( Cbuffer );
 					 
 					soundThree.setLoop(true);
 					
-					soundThree.setVolume(0.5); 
+					soundThree.setVolume(0.1); 
 					
 					soundThree.setPlaybackRate(1); // can play here 4 is also nice
 
@@ -140,41 +142,73 @@
 					});
 
 					
-					audioLoaderFour.load( 'sounds/noiseBursts.ogg', function( Dbuffer ) {
+					audioLoaderFour.load( 'sounds/pandomFades.ogg', function( Dbuffer ) {
 					
 					soundFour.setBuffer( Dbuffer );
 					 
 					soundFour.setLoop(true);
 					
-					soundFour.setVolume(0.2); 
+					soundFour.setVolume(0.005); 
 					
-					soundFour.setPlaybackRate(1); 
+					soundFour.setPlaybackRate(0.5); 
 
 					soundFour.play();
 					
 					});
 
 
-				    audioLoaderFive.load( 'sounds/pandon.ogg', function( Ebuffer ) {
+				    audioLoaderFive.load( 'sounds/Noise_1.ogg', function( Ebuffer ) {
 					
 					soundFive.setBuffer( Ebuffer );
 					 
-					soundFive.setLoop(true);
+					soundFive.setLoop(false);
 					
-					soundFive.setVolume(0.01); 
+					soundFive.setVolume(0.5); 
 					
 					soundFive.setPlaybackRate(1); 
 
-					soundFive.play();
+					});
+
 					
+					audioLoaderSix.load( 'sounds/Noise_2.ogg', function( Fbuffer ) {
+					
+					soundSix.setBuffer( Fbuffer );
+					 
+					soundSix.setLoop(false);
+					
+					soundSix.setVolume(2); 
+					
+					soundSix.setPlaybackRate(0.8); 
+
+					});
+
+					
+					audioLoaderSeven.load( 'sounds/Noise_3.ogg', function( Gbuffer ) {
+					
+					soundSeven.setBuffer( Gbuffer );
+					 
+					soundSeven.setLoop(false);
+					
+					soundSeven.setVolume(0.8); 
+					
+					soundSeven.setPlaybackRate(1); 
+
 					});
 
 
-
-
+					audioLoaderEight.load( 'sounds/Noise_4.ogg', function( Hbuffer ) {
 					
-					///////////////////
+					soundEight.setBuffer( Hbuffer );
+					 
+					soundEight.setLoop(false);
+					
+					soundEight.setVolume(0.8); 
+					
+					soundEight.setPlaybackRate(1); 
 
+					});
+
+					///////////////////
 
 					if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
@@ -419,8 +453,6 @@
 
 					function onDocumentMouseDown( event ) {
 
-						//event.preventDefault();
-
 						mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
 						mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
 
@@ -428,13 +460,19 @@
 
 						var intersects = raycaster.intersectObjects( objects );
 
-						if ( intersects.length > 0 ) { // 0. STelle im Array und mit der id "5" hab ich vergeben
+						var snd = [soundFive,soundSix,soundSeven,soundEight];
 
-							alert("ja");
-
+						for (var i = 0; intersects.length > 0; i++) {
+							
+							snd[i].play();
+							
+							if(i > 4){
+							
+							i = 0;
+							
+							}
+							}
 						}
-
-					}
 
 
 					function showVideo() { 
