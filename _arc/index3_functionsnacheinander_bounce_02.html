@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>NoNoNoYesNo</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+		<script src="http://code.jquery.com/jquery-latest.pack.js"></script>
+
+		<script src="http://code.jquery.com/jquery-latest.pack.js"></script>
+		<script src="jquery-ui-1.9.2.custom.js"></script>
+		<script src="jquery/myJquery.js"></script>
+		<script src="https://player.vimeo.com/api/player.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="styles6_video_animation2.css">
+
+	</head>
+
+	<body>
+
+		<script src="three.js"></script> <!-- update?-->
+
+		<script src="js/Detector.js"></script>
+		<script src="js/libs/stats.min.js"></script>
+
+		<script src="js/shaders/BleachBypassShader.js"></script>
+		<script src="js/shaders/ColorCorrectionShader.js"></script>
+		<script src="js/shaders/CopyShader.js"></script>
+		<script src="js/shaders/FXAAShader.js"></script>
+
+		<script src="js/renderers/Projector.js"></script>
+		<script src="js/renderers/CanvasRenderer.js"></script>
+
+		<script src="js/postprocessing/EffectComposer.js"></script>
+		<script src="js/postprocessing/RenderPass.js"></script>
+		<script src="js/postprocessing/ShaderPass.js"></script>
+		<script src="js/postprocessing/MaskPass.js"></script>
+
+		<script src="js/loaders/LoadingManager.js"></script>
+
+			
+		<!-- PLAY AMBIENT SOUND -->
+		<!-- <audio id="ambientSound" src="sounds/AmbientSound_Tongue.mp3" preload="auto"></audio>
+		<script type="text/javascript">
+		    $(document).ready(function(){
+		        $('#ambientSound')[0].play();
+		    });
+		</script>-->
+
+		<!-- ALLES -->
+
+		<div id="container2"> 
+
+			<!-- VIDEO ZUNGE -->
+
+			<div id="scan"></div>
+			<div id="scan2"></div>
+			<div id="scan3"></div>
+			<div id="scan4"></div>
+			<!--<div id="sign1"><p>⦵</p></div>-->
+
+			<script>
+				var myScan = document.getElementById('scan');
+				myScan.addEventListener('webkitAnimationEnd',function( event ) { myScan.style.display = 'none'; }, false);
+				var myScan2 = document.getElementById('scan2');
+				myScan2.addEventListener('webkitAnimationEnd',function( event ) { myScan2.style.display = 'none'; }, false);
+				var myScan3 = document.getElementById('scan3');
+				myScan3.addEventListener('webkitAnimationEnd',function( event ) { myScan3.style.display = 'none'; }, false);
+	
+			</script>
+
+			<div id="videocover">
+
+				<video id="myVideo">
+					  <source src="videos/TongueTrim_alpha.mp4" type="video/mp4">
+					  Your browser does not support HTML5 video.
+				</video>
+
+				<video id="myVideo2">
+					  <source src="videos/Stamp_invert.mp4" type="video/mp4">
+					  Your browser does not support HTML5 video.
+				</video>
+
+			</div>	
+
+			<!--<div id="image">
+				<img src="images/theOther2.png">
+			</div>	-->				
+		
+		<!-- ZUNGE -->
+
+			<div id = "tongue">
+
+				<script>
+
+					if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+					// GLOBAL VARIABLES TONGUE
+
+					var statsEnabled = true;
+					var container, stats, loader;
+					var camera, camera2, scene, scene2, renderer;
+					var mesh, newMesh, newMesh2, newMesh3, newMesh4, mesh2, materialShader, materialShader2;
+
+					var material;
+					
+					var spotLight;
+
+					var raycaster;
+					var mouse;
+
+					var mouseX = 0;
+					var mouseY = 0;
+
+					var targetX = 0;
+					var targetY = 0;
+
+					var clickHandler = false;
+
+					var windowHalfX = window.innerWidth / 2;
+					var windowHalfY = window.innerHeight / 2;
+
+					var clock = new THREE.Clock();
+					var manager = new THREE.LoadingManager();
+					var textureCube;
+
+					var cameraDistanceX = 3000;
+					var cameraDistanceZ = 3000;
+					var cameraDistanceStartX = 1000;
+					var cameraDistanceStartZ = 1000;
+
+					var currentMousePos = { x: -1, y: -1 };
+
+					var click7;
+
+					var numClicks = 0;
+					var vid = document.getElementById("myVideo");
+					var vid2 = document.getElementById("myVideo2");
+					vid.style.display = "none";
+					vid2.style.display = "none";
+
+					var objects = [];
+					var distortX;
+
+
+					////////////////////////////////////////////////////////////////////////
+					////////////////////////////////////////////////////////////////////////
+					////////////////////////////////////////////////////////////////////////
+
+					// GLOBAL VARIABLES TEXT
+
+					var currentIndex;
+					var newIndex;
+
+					// str1 ist ganzer Text außer die Zahlen, str2 sind die Zahlen
+					var str1 = "I en⑂er the small room of the Panamerican Kitchen . It is already quite late , the kitchen is about to close . A cloud of metallic fat is hanging in the air ; fat they only use for Panamerican food when the ve⦵gan delivery had a shortage . You immediately caught my attention . You are sitting at a small plastic table , a glass of cheap scotch and a plate with left-over heads of sucked king prawns in front of you . You are slightly bending over the table . In a permanent back and forth you are fighting with wisps of your long blond hair that permanently keep falling into your face . Push back . Fall . Push back . Fall .     I like the graceful rhythmic movements of your fingers fondling the glass panel of your phone . You seem to be far away . I make a step towards you . Nice pic .   Intriguing romantic eyes .. sweet clever deep ... submissive but independent. A kinky mind behind those eyes. I tried to describe part of your erotic shade you have in that picture .     You giggle. Your teeth are straight . Something unusual in this city . Your hair caresses your cleavage . I think I love you . Great smile , hair and height . You look warm and positive How are you today ? Toilet flushing . Light flashing . You don’t look up . Instead your hair continues seesawing back and forth . The movement of your fingers changed . Now your thumb rhythmically wipes the screen from right to left , right to left , right to left . Then left to right . And then again right to left , right to left , right to left . You are incredibly fast . Then you switch back to an irregular pattern .     I observe you for a while . The room is empty . Besides both of us all the other guests have left already . The waiter polishes wine glasses with a holey kitchen towel .      I position myself closer to you . This will crop away my unattractive parts from your field of vision . My way too skinny legs . My bad taste . I twist my head a bit to create the right incidental angle for the light in this room to sculpt the most beautiful parts out of my face . I come intensely close . Hey , thought I’d try a question to break the ice . If you could travel to any country in the world , where would you go and why ?     You don’t look up . No response . No reaction on my inept advance . I start to panic . I like animals , but unfortunately animals are not allowed in the Panamerican Kitchen . You could otherwise see kittens balancing on my head , dogs licking my face , or me cuddling an ostrich . I know that everyone else is doing that . It’s cute . You might have liked it . I open my business case . I am a journalist . You can see me on Aljazeera . I have a degree from Cambridge . Here , I am also on youtube . I will send you the links later . I want to meet you . I close it again . You seem to be absorbed in finger movement . laters , James Michael (American) xoxoxo Jason      I leave the Panamerican Kitchen .";
+					var words1 = str1.split(" "); 
+					var amountWords = words1.length;
+					var number = "Panamerican";
+					var text = "";
+					var index = 0;
+					var delay = 500; 
+					
+					// findet index eines bestimmten Wortes heraus
+					//document.getElementById("demo").innerHTML = words1.indexOf("xoxoxo"); 
+					console.log(words1.indexOf("xyz"));
+					/* Indices Timestamp
+					[11:46:20 pm]: Stamp 1: 161; Nice
+					[11:47:33 pm]: Stamp 2: 166;  Intriguing
+					[11:41:06 pm]: Stamp 3: 227;  Great
+					[11:58:20 pm]: Stamp 4: 433; Hey
+					[11:42:08 pm]: Stamp 5: 602; laters
+					[11:55:44 pm]: Stamp 6: 605; Michael
+					[11:45:39 pm]: Stamp 7: 607; xoxoxo */
+
+					setTimeout(function() { 
+
+						var myVar = setInterval(myTimer, delay);
+
+						function myTimer() {
+							if (index == words1.length) {
+								// Stoppt das Abspielen nach dem letzten Index
+					    		clearInterval(myVar);
+					    	}
+					    	else {
+					    		myVar ++;
+
+					    		// [11:46:20 pm]: Stamp 1: 161; Nice
+					    		if (index == 161)	{
+					    			document.getElementById("Timestamp1").innerHTML = "[11:46:20 pm]:";
+					    		}
+
+					    		// [11:47:33 pm]: Stamp 2: 166;  Intriguing
+					    		if (index == 166)	{
+					    			document.getElementById("Timestamp2").innerHTML = "[11:47:33 pm]:";
+					    		}
+
+					    		// [11:41:06 pm]: Stamp 3: 227;  Great
+					    		if (index == 227)	{
+					    			document.getElementById("Timestamp3").innerHTML = "[11:41:06 pm]:";
+					    		}
+
+					    		// [11:58:20 pm]: Stamp 4: 433; Hey
+					    		if (index == 433)	{
+					    			document.getElementById("Timestamp4").innerHTML = "[11:58:20 pm]:";
+					    		}
+
+					    		// [11:42:08 pm]: Stamp 6: 602; laters
+					    		if (index == 602)	{
+					    			document.getElementById("Timestamp5").innerHTML = "[11:42:08 pm]:";
+					    		}
+
+					    		// [11:55:44 pm]: Stamp 6: 605; Michael
+					    		if (index == 605)	{
+					    			document.getElementById("Timestamp6").innerHTML = "[11:55:44 pm]:";
+					    		}
+
+					    		// [11:45:39 pm]: Stamp 7: 607; xoxoxo
+					    		if (index == 607)	{
+					    			document.getElementById("Timestamp7").innerHTML = "[11:45:39 pm]:";
+					    		}
+
+					    		if ( index == 15 ){
+									showVideo();
+								}
+
+								if ( index == 34 ){
+									showVideo2();
+								}
+
+					    		document.getElementById("NoNoNoYesNoText").innerHTML = words1[index];
+								//console.log(index);
+					    		index ++;	
+
+					    	}   		    	
+				 		};	
+
+				 	 }, 1000); // auf 8000 später
+						
+					////////////////////////////////////////////////////////////////////////
+					////////////////////////////////////////////////////////////////////////
+					////////////////////////////////////////////////////////////////////////
+
+					// REIHENFOLGE //////////////////////////////////////////
+
+					init();
+					animate();
+
+					////////////////////////////////////////////////////////////////////////
+					////////////////////////////////////////////////////////////////////////
+					////////////////////////////////////////////////////////////////////////
+
+
+					
+					///////////////////////////////////////////////////////////////
+
+					function init() {
+
+
+						//notwendig?
+						container = document.createElement( 'div' );
+						document.body.appendChild( container );
+
+						// area that gets fired as soon as mouse enters, can be deleted later
+
+						triggerBox = document.createElement( 'div' ); 
+						triggerBox.setAttribute( "id" , "triggerBox" );
+						document.body.appendChild( triggerBox );
+
+						// SCENE
+
+						camera = new THREE.PerspectiveCamera( 27, window.innerWidth / window.innerHeight, 1, 100000 );
+						camera.position.z = 2000;
+
+						// BACKGROUND & MATERIALS
+
+						var textureLoader = new THREE.TextureLoader(manager);
+						var mapHeight = new THREE.TextureLoader(manager).load( "models/Tongue_Bump.jpg" );
+						var displacementMap = textureLoader.load( "models/Tongue_Bump.jpg" );
+					
+						material = new THREE.MeshPhongMaterial( {							
+							specular: 0xffffff,
+							shininess: 100,
+							map: new THREE.TextureLoader(manager).load('models/Tongue_Diffuse.jpg'),
+							bumpMap: mapHeight,
+							bumpScale: 10,
+						} );
+
+						var material2 = material;
+
+						textureCube = new THREE.CubeTextureLoader(manager)
+							.setPath( 'textures/')
+							.load( [ 'posx.jpg', 'negx.jpg', 'posy.jpg', 'negy.jpg', 'posz.jpg', 'negz.jpg' ] );
+
+
+						scene = new THREE.Scene();
+						scene2 = new THREE.Scene();
+
+						// LIGHTS SCENE 1
+
+						scene.add( new THREE.HemisphereLight( 0xb33939, 0xfe7cff ) );
+
+
+						var ambientlight = new THREE.AmbientLight( 0x404040 );
+						//						scene.add( ambientlight );
+
+						spotLight = new THREE.SpotLight( 0x7348ff, 2 );
+						spotLight.position.set( 0.5, 0, 1 );
+						spotLight.position.multiplyScalar( 700 );
+						scene.add( spotLight );
+
+						spotLight2 = new THREE.SpotLight( 0x7348ff, 2 );
+						spotLight2.position.set( -0.5, 0, -1 );
+						spotLight2.position.multiplyScalar( 700 );
+						scene.add( spotLight2 );
+
+						spotLight3 = new THREE.SpotLight( 0x6945ef, 2 );
+						spotLight3.position.set( -0.5, 0.3, 0.5 );
+						spotLight3.position.multiplyScalar( 5000 );
+						scene.add( spotLight3 ); 	
+
+						spotLight.castShadow = false;
+
+						spotLight.shadow.mapSize.width = 2048;
+						spotLight.shadow.mapSize.height = 2048;
+
+						spotLight.shadow.camera.near 	 = 200;
+						spotLight.shadow.camera.far = 1500;
+
+						spotLight.shadow.camera.fov = 40;
+
+						spotLight.shadow.bias = -0.005;
+
+						// LIGHTS SCENE 2
+
+						spotLight3 = new THREE.SpotLight( 0x7348ff, 0.5 );
+						spotLight.position.set( 0.2, 0, 1 );
+						spotLight.position.multiplyScalar( 700 );
+						scene2.add( spotLight );
+
+						spotLight4 = new THREE.SpotLight( 0xff2668, 0.5 );
+						spotLight2.position.set( -0.2, 0, -1 );
+						spotLight2.position.multiplyScalar( 700 );
+						scene2.add( spotLight2 );
+
+						spotLight5 = new THREE.SpotLight( 0xb4ff00, 0.5 );
+						spotLight3.position.set( -0.5, 0.3, 0.5 );
+						spotLight3.position.multiplyScalar( 300 );
+						scene2.add( spotLight3 );
+
+						spotLight3.castShadow = false;
+
+						spotLight3.shadow.mapSize.width = 2048;
+						spotLight3.shadow.mapSize.height = 2048;
+
+						spotLight3.shadow.camera.near 	 = 200;
+						spotLight3.shadow.camera.far = 1500;
+
+						spotLight3.shadow.camera.fov = 40;
+
+						spotLight3.shadow.bias = -0.005;
+
+						spotLight4.castShadow = false;
+
+						spotLight4.shadow.mapSize.width = 2048;
+						spotLight4.shadow.mapSize.height = 2048;
+
+						spotLight4.shadow.camera.near 	 = 200;
+						spotLight4.shadow.camera.far = 1500;
+
+						spotLight4.shadow.camera.fov = 40;
+
+						spotLight4.shadow.bias = -0.005;
+
+
+						// SHADERS 
+
+					
+						// GEOMETRY
+
+						loader = new THREE.JSONLoader(manager);
+						loader.load( "models/tongue_new.json", function( geometry ) {
+
+							mesh = new THREE.Mesh( geometry, material );
+							mesh.id = 5;
+
+							objects.push( mesh );
+
+							/*mesh2 = new THREE.Mesh( geometry, material2 ); 
+							mesh2.id = 3;
+							objects.push( mesh2 );*/
+
+							mesh.position.y = - 50;
+							mesh.scale.setScalar( 200 );
+
+							mesh.castShadow = true;
+							mesh.receiveShadow = true;
+															
+						} );
+
+						// RAYCASTER
+
+						raycaster = new THREE.Raycaster();
+						mouse = new THREE.Vector2();
+
+
+						// RENDERER
+
+						renderer = new THREE.WebGLRenderer( { antialias: false } );
+						renderer.setClearColor( 0xffffff );
+						renderer.setPixelRatio( window.devicePixelRatio );
+						renderer.setSize( window.innerWidth, window.innerHeight );
+						renderer.setFaceCulling( THREE.CullFaceNone );
+
+						renderer.shadowMap.enabled = true;
+						renderer.shadowMap.renderReverseSided = true;
+
+						container.appendChild( renderer.domElement );
+
+						//
+
+						renderer.gammaInput = true;
+						renderer.gammaOutput = true;
+
+						//
+
+						/*if ( statsEnabled ) {
+							stats = new Stats();
+							container.appendChild( stats.dom );
+						}*/
+
+						// EVENTS
+
+						document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+						window.addEventListener( 'resize', onWindowResize, false );
+						document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+						document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+
+						
+					}
+
+					///////////////////////////////////////////////////////////////
+
+					$(document).on('click',	function() {
+
+						numClicks++;	
+						console.log(numClicks);
+
+						/*if ( numClicks == 7 ){
+							//showVideo();
+							//removeMesh();
+							numClicks = 0;
+						}*/
+					});
+
+					function onDocumentTouchStart( event ) {
+
+						event.preventDefault();
+
+						event.clientX = event.touches[0].clientX;
+						event.clientY = event.touches[0].clientY;
+						onDocumentMouseDown( event );
+
+					}
+
+
+					////// find right tongue to milk
+
+					function onDocumentMouseDown( event ) {
+
+						//event.preventDefault();
+
+						mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
+						mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+
+						raycaster.setFromCamera( mouse, camera );
+
+						var intersects = raycaster.intersectObjects( objects );
+
+						if ( intersects.length > 0 ) { // 0. STelle im Array und mit der id "5" hab ich vergeben
+
+							alert("ja");
+
+							var element = document.getElementById( 'tongue' );
+							var newElement = document.createElement('div');
+							newElement.setAttribute( 'class', 'test' );
+
+							var randomlyPlace = function(newElement){
+							    newElement.style.position = "absolute";
+							    newElement.style.top = Math.floor(Math.random()*document.body.clientHeight);
+							    newElement.style.left = Math.floor(Math.random()*document.body.clientWidth);
+							  };
+							
+							
+
+							var elementParent = element.parentNode;
+							elementParent.insertBefore(newElement, element.nextSibling);
+							randomlyPlace(document.getElementById('test'));
+
+							
+						}
+
+					}
+
+
+					function showVideo() { 
+
+						vid.style.display = "block";
+						vid.play();
+
+						vid.onended = function() {
+							vid.style.display = "none";
+						};
+
+					}	
+
+					function showVideo2() { 
+
+						vid2.style.display = "block";
+						vid2.play();
+
+						vid2.onended = function() {
+							vid2.style.display = "none";
+						};
+
+					}	
+
+					///////////////////////////////////////////////////////////////
+
+					function shader() {
+
+						material.onBeforeCompile = function ( shader ) {
+
+							// materialShader
+
+							shader.uniforms.time = { value: 0 };
+
+							shader.vertexShader = 'uniform float time;\n' + shader.vertexShader;
+							shader.vertexShader = shader.vertexShader.replace(
+								'#include <begin_vertex>',
+								[
+									'float theta = sin( time + position.y ) / 2.0;',
+									'float c = cos( theta );',
+									'float s = sin( theta );',
+									'mat3 m = mat3( c, 0, s, 0, 1, 0, -s, 0, c );',
+									'vec3 transformed = vec3( position ) * m;',
+									'vNormal = vNormal * m;'
+								].join( '\n' )
+							);
+
+							materialShader = shader;
+
+
+						};
+					}
+
+					function shader2() {
+
+						material.onBeforeCompile = function ( shader ) {
+
+							shader.uniforms.time = { value: 1 };
+
+							shader.vertexShader = 'uniform float time;\n' + shader.vertexShader;
+							shader.vertexShader = shader.vertexShader.replace(
+								'#include <begin_vertex>',
+								[
+									'float theta = sin( time + position.x ) / 2.0;',
+									'float c = 1.0;',
+									'float s = sin( time + position.y );',
+									'mat3 m = mat3( c, -2, s, 2, 1, 0, -s, 0, c );',
+									'vec3 transformed = vec3( position ) * m;',
+									'vNormal = vNormal * m;'
+								].join( '\n' )
+							);
+
+							materialShader = shader;
+
+						};
+					}
+
+					///////////////////////////////////////////////////////////////
+
+					function onWindowResize( event ) {
+
+						windowHalfX = window.innerWidth / 2;
+						windowHalfY = window.innerHeight / 2;
+
+						//
+						renderer.setSize( window.innerWidth, window.innerHeight );
+						//
+						camera.aspect = window.innerWidth / window.innerHeight;
+						camera.updateProjectionMatrix();
+
+					}
+
+					///////////////////////////////////////////////////////////////
+
+					function onDocumentMouseMove( event ) {
+
+						mouseX = ( event.clientX - windowHalfX );
+						mouseY = ( event.clientY - windowHalfY );
+
+					}
+
+
+					///////////////////////////////////////////////////////////////
+
+					function animate() {
+
+						requestAnimationFrame( animate );
+						if ( index >= 130 ){
+
+							cameraDistanceX = 3000;
+							cameraDistanceZ = 3000;
+							distortX = mouseX;
+							shader();
+							render();
+							
+						} else {
+
+							cameraDistanceX = 2000;
+							cameraDistanceZ = 2000;
+
+							shader2();
+							render2();
+
+						}
+						//if ( statsEnabled ) stats.update();
+
+						update();
+
+					}
+
+					function update() {
+			
+							var delta = clock.getDelta();
+
+						}
+
+					manager.onLoad = function ( ) {
+
+						console.log( 'Loading complete!');
+
+						// SCENE 1
+						mesh.position.y = - 50;
+						mesh.scale.setScalar( 200 );
+						newMesh = mesh.clone();
+						newMesh.position.y = + 50;
+						scene.background = textureCube;
+
+						scene.add( mesh );
+						scene.add( newMesh ); 
+						//objects.push( newMesh );	
+
+						// SCENE 2
+						newMesh2 = mesh.clone();
+						newMesh2.position.y = - 50;
+						newMesh2.scale.setScalar( 200 );
+						objects.push( newMesh2 );
+
+						newMesh3 = mesh.clone();
+						newMesh3.position.y = + 50;
+
+						newMesh4 = mesh.clone(); 
+						newMesh4.rotation.x = + 100; 
+						scene2.background = new THREE.Color( 0x000000 );
+		
+						//scene2.background = textureCube;
+
+						scene2.add( newMesh2 );
+						scene2.add( newMesh3 );
+						scene2.add( newMesh4 );
+
+					};
+
+
+					function removeMesh() {
+					  scene.remove(newMesh2);
+					}	
+
+					///////////////////////////////////////////////////////////////
+
+					function render() {
+
+						var timer = -0.0002 * Date.now();
+
+						camera.position.x = cameraDistanceX * Math.cos( timer );
+						camera.position.y += ( - mouseY - camera.position.y ) * .05;
+						camera.position.z = cameraDistanceX * Math.sin( timer );
+
+						camera.lookAt( scene.position );
+
+						targetX = mouseX * .001; // remove später
+						targetY = mouseY * .001; // remove später
+
+						if ( mesh ) {
+
+							mesh.rotation.y += 0.05 * ( targetX - mesh.rotation.y + 5); // + = Anfangsdrehung
+							mesh.rotation.x += 0.05 * ( targetY - mesh.rotation.x + 1);
+
+						}	
+
+
+						if ( materialShader ) {
+
+							materialShader.uniforms.time.value = performance.now() / 1000;
+
+						}
+
+						renderer.render( scene, camera );
+
+					}
+
+					function render2() {
+
+						var timer = -0.0002 * Date.now();
+
+						camera.position.x = cameraDistanceX * Math.cos( timer );
+						camera.position.y += ( - mouseY - camera.position.y ) * .05;
+						camera.position.z = cameraDistanceX * Math.sin( timer );
+
+						camera.lookAt( scene2.position );
+
+						if ( newMesh2 ) {
+
+							newMesh2.rotation.y += 0.05 * ( targetX - newMesh2.rotation.y + 6); // + = Anfangsdrehung
+							newMesh2.rotation.x += 0.05 * ( targetY - newMesh2.rotation.x + 1);
+
+						}
+
+						if ( newMesh3 ) {
+
+							newMesh3.rotation.y += 0.05 * ( targetX - newMesh3.rotation.y + 10); // + = Anfangsdrehung
+							newMesh3.rotation.x += 0.05 * ( targetY - newMesh3.rotation.x + 7);
+
+						}
+
+						if ( materialShader ) {
+
+							materialShader.uniforms.time.value = performance.now() / 3000;
+
+						}
+
+						spotLight4.position.set( currentMousePos.x, currentMousePos.y, 10 );
+
+						renderer.render( scene2, camera );
+
+					}
+
+
+				</script>
+			</div>
+
+		<!-- TEXT /////////////////////////////////////////////////////////////// -->
+
+
+			<div id="Timestamps">
+				<p id="Timestamp1"></p>
+				<p id="Timestamp2"></p>
+				<p id="Timestamp3"></p>
+				<p id="Timestamp4"></p>
+				<p id="Timestamp5"></p>
+				<p id="Timestamp6"></p>
+				<p id="Timestamp7"></p>
+			</div>
+			<div id = "runtext">
+				<div id ="Text">
+					<p id="NoNoNoYesNoText"></p>
+				</div>		
+			
+			<!-- //////////////////////////////// GENERAL SCRIPTS ////////////////////////////////////////// -->
+
+
+			<!-- //////////////////////////////// SCRIPT TEXT ////////////////////////////////////////// -->
+
+			<script>
+
+
+			</script>
+
+			<!--
+			<div class="audio">
+
+
+				<audio id ="audioclick1"> 
+					<source src="sounds/376737_Skullbeatz___Bad_Cat_Maste.mp3">
+				</audio>
+
+				<audio id ="audioclick2"> 
+					<source src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Anthem_of_Europe_%28US_Navy_instrumental_short_version%29.ogg">
+				</audio>
+
+				<audio id ="audioclick3"> 
+					<source src="https://upload.wikimedia.org/wikipedia/commons/5/5b/Ludwig_van_Beethoven_-_Symphonie_5_c-moll_-_1._Allegro_con_brio.ogg">
+				</audio>
+
+				<script>
+
+
+					var song1 = $('#audioclick1');
+					var song2 = $('#audioclick2');
+					var song3 = $('#audioclick3');
+
+					var audioArray = [song1, song2, song3];
+					var i=0;
+					var lastPlayedFile = null;
+
+
+					document.addEventListener('click', onDocumentClick, true);
+
+			    	function onDocumentClick (event){
+					  if(lastPlayedFile !== null) {
+					     lastPlayedFile[0].currentTime = 0;
+					     lastPlayedFile.trigger('pause'); 
+					  }
+					  if (i< audioArray.length){
+					     lastPlayedFile = audioArray[i];
+					     audioArray[i].trigger('play');
+					     i++;
+					  } else if (i>=audioArray.length){
+					     i = 0;
+					     lastPlayedFile = audioArray[0];
+					     audioArray[i].trigger('play');
+					  };
+					};
+		    
+			  	</script> 
+
+			</div> -->
+
+			<!-- Video -->
+
+		<!-- ALLES ZU -->
+		</div> 
+
+	</body>
+</html>

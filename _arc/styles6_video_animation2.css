@@ -1,0 +1,439 @@
+  /* DIE DEFAULT GRÖSSEN SIND FÜR MOBIL UND DEFAULT */
+
+html { 
+    max-width: 100%;
+    overflow: hidden;
+}
+
+canvas {
+  max-width:100;
+  max-height:100%;
+
+}
+
+p {   
+
+  font-family: "Arial Narrow", Arial, sans-serif;
+  font-size:100px;  
+  /*padding:0;
+  margin:0;*/
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke-width: 3px;
+  -webkit-text-stroke-color: red;
+  filter: blur(2px);
+  text-align: center;
+
+}
+
+body{
+  margin:0px;
+}
+
+#myVideo {
+
+    mix-blend-mode: multiply;
+    -webkit-animation-name: flicker;
+    -webkit-animation-duration: 3s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+
+}
+
+@-webkit-keyframes flicker {
+  from {
+    opacity: 0.5;
+  }
+  4% {
+    opacity: 0.5;
+  }
+  6% {
+    opacity: 0.45;
+  }
+  8% {
+    opacity: 0.55;
+  }
+  10% {
+    opacity: 0.45;
+  }
+  11% {
+    opacity: 0.5;
+  }
+  12% {
+    opacity: 0.65;
+  }
+  14% {
+    opacity: 0.55;
+  }
+  16% {
+    opacity: 0.70;
+  }
+  17% {
+    opacity: 0.55;
+  }
+  19% {
+    opacity: 0.5;
+  }
+  20% {
+    opacity: 0.5;
+  }
+  24% {
+    opacity: 0.5;
+  }
+  26% {
+    opacity: 0.69;
+  }
+  28% {
+    opacity: 0.5;
+  }
+  38% {
+    opacity: 0.45;
+  }
+  40% {
+    opacity: 0.5;
+  }
+  42% {
+    opacity: 0.6;
+  }
+  44% {
+    opacity: 0.5;
+  }
+  46% {
+    opacity: 0.5;
+  }
+  56% {
+    opacity: 0.5;
+  }
+  58% {
+    opacity: 0.75;
+  }
+  60% {
+    opacity: 0.5;
+  }
+  68% {
+    opacity: 0.5;
+  }
+  70% {
+    opacity: .6; /*peak*/
+  }
+  72% {
+    opacity: 0.5;
+  }
+  93% {
+    opacity: 0.5;
+  }
+  95% {
+    opacity: .6; /*peak*/
+  }
+  97% {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 0.5;
+  }
+}
+
+#image{
+  position: absolute;
+  width:100%;
+  height:100%;
+}
+
+#myVideo2 {
+
+    mix-blend-mode: darken;
+    
+}
+
+#transitionLayer{
+
+  color: black;
+}
+
+#button{
+  position:fixed;
+  left:100px;
+}
+
+
+#oldie {
+
+  background:rgb(200,100,0) !important;
+  color:#fff;
+
+}
+
+.rand{
+  position:absolute;
+  background-color:red;
+  width:100px;
+  height:100px;
+
+}
+
+
+#vt { display:none }
+#vt, #vt a { color:orange; }
+
+#videocover {
+
+  position: absolute;
+
+    -webkit-animation: bounce 1.2s ease-out;
+  -moz-animation: bounce 800ms ease-out;
+  -o-animation: bounce 800ms ease-out;
+  animation: bounce 1.2s ease-out;
+
+}
+
+#runtext {
+
+  height: 100%;
+  width: 100%;
+
+    -webkit-animation: bounce 1.2s ease-out;
+  -moz-animation: bounce 800ms ease-out;
+  -o-animation: bounce 800ms ease-out;
+  animation: bounce 1.2s ease-out;
+
+}
+
+
+#Text {
+
+  position: absolute;
+    height: 200px;
+    width: 400px;
+    margin: -100px 0 0 -200px;
+    top: 50%;
+    left: 50%;
+}
+
+
+
+
+#scan {
+  position:absolute;
+    width: 100px;
+    min-height:120%;
+    -webkit-animation-name: scan; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+    animation-name: scan;
+    animation-duration: 80s;
+    filter: blur(4px);
+    top:-10px;
+    margin:0 auto;
+    background: red; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left,rgba(255,0,0,0),rgba(255,0,0,1)); /*Safari 5.1-6*/
+    background: -o-linear-gradient(right,rgba(255,0,0,0),rgba(255,0,0,1)); /*Opera 11.1-12*/
+    background: -moz-linear-gradient(right,rgba(255,0,0,0),rgba(255,0,0,1)); /*Fx 3.6-15*/
+    background: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1)); /*Standard*/
+
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes scan {
+    from {left: -100px;}
+    to {left: 2000px;}
+}
+
+/* Standard syntax */
+@keyframes scan {
+    from {left: -100px;}
+    to {left: 2000px;}
+}
+
+#scan2 {
+    position:absolute;
+    width: 5px;
+    min-height:120%;
+    -webkit-animation-name: scan; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+    animation-name: scan;
+    animation-duration: 40s;
+    filter: blur(4px);
+    top:-10px;
+    margin:0 auto;
+    background: red; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(rgba(255,0,0,0),rgba(255,0,0,1)); /*Safari 5.1-6*/
+    background: -o-linear-gradient(rgba(255,0,0,0),rgba(255,0,0,1)); /*Opera 11.1-12*/
+    background: -moz-linear-gradient(rgba(255,0,0,0),rgba(255,0,0,1)); /*Fx 3.6-15*/
+    background: linear-gradient(rgba(255,0,0,0), rgba(255,0,0,1)); /*Standard*/
+}
+
+
+#scan3 {
+    position:absolute;
+    width: 20px;
+    min-height:120%;
+    -webkit-animation-name: scan; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+    animation-name: scan;
+    animation-duration: 70s;
+    filter: blur(10px);
+    top:-10px;
+    margin:0 auto;
+    background: white; /* For browsers that do not support gradients */
+    mix-blend-mode: color-dodge;
+
+}
+
+
+#scan4 {
+    position:absolute;
+    min-width: 120%;
+    min-height:1%;
+    margin:0 auto;
+    background: white; 
+    -webkit-animation: scanHorizontal 60s infinite; /* Safari 4.0 - 8.0 */
+    animation: scanHorizontal 60s infinite;
+    top:-100px;
+    filter: blur(2px);
+    background: white; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left,rgba(54,46,247,0),rgba(255,255,255,1)); /*Safari 5.1-6*/
+    background: -o-linear-gradient(right,rgba(255,255,255,0),rgba(255,255,255,1)); /*Opera 11.1-12*/
+    background: -moz-linear-gradient(right,rgba(255,255,255,0),rgba(255,255,255,1)); /*Fx 3.6-15*/
+    background: linear-gradient(to right, rgba(54,46,247,0),rgba(54,46,247,1)); /*Standard*/
+    mix-blend-mode: screen;
+
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes scanHorizontal {
+    0%   {top: -50px;}
+    50%  {top: 100%;}
+    100% {top: -50px;}
+}
+
+/* Standard syntax */
+@keyframes scanHorizontal {
+    0%   {top: -50px;}
+    50%  {top: 100%;}
+    100% {top: -50px;}
+}
+
+#Timestamps {
+
+  padding-left: 10px; 
+  padding-top: 10px; 
+  position: absolute;
+
+}
+
+
+#Timestamp1, #Timestamp2, #Timestamp3, #Timestamp4, #Timestamp5, #Timestamp6, #Timestamp7 {
+
+    text-align:left; 
+    font-size:40px; 
+    /*-webkit-text-stroke-width: 3px; 
+    filter: blur(1px);*/
+
+  }
+
+#container {
+
+    max-width: 960px;
+    margin: auto;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#background {
+    /*transition: background 0.5s linear;
+    -webkit-transition: background 3s linear;*/
+    height: 100%;
+    width: 100%;
+    /*background-color: black;*/
+    /*position: absolute;*/
+}
+
+#video_container{
+
+  position: absolute;
+
+}
+
+#video{
+
+  position: absolute;
+
+}
+
+/* HIER KOMMEN DIE STYLES FÜR EINE BROWSERGRÖSSE VON AB 960px REIN, KANNST ABER AUCH KLEINE RMACHEN, Z.B: AB 800px; */
+
+@media only screen and (min-width: 960px) {
+  #Timestamp1, #Timestamp2, #Timestamp3, #Timestamp4, #Timestamp5, #Timestamp6, #Timestamp7 {
+
+    font-size: 100px; 
+
+    
+}
+
+
+/* /////////////////////////////////// */
+
+
+.rand {
+  font-family: Helvetica, sans-serif;
+  word-wrap: break;
+  width: 100px;
+  height: 100px;
+  background: steelblue;
+  padding: 10px;
+  text-align: center;
+  position: relative;
+  z-index: -1;
+}
+
+.log {
+  position: fixed;
+  border: 1px solid #000;
+  bottom: 0;
+  right: 0;
+  padding: 5px;
+  width: 50px;
+  height: 50px;
+  font-family: Helvetica;
+  font-size: 11px;
+  background: skyblue;
+  box-shadow: 0 0 20px #000;
+}
+
+
+.new_pos {
+  background: #ccc;
+  border: 1px solid #000;
+  padding: 5px;
+  box-shadow: 0 0 20px #555;
+  -webkit-transition: all .2s ease-in;
+  transition: all .2s ease-in;
+}
+
+.new_pos:hover {
+  background: #bbb;
+  box-shadow: 0 0 20px #222;
+}
+
+
+.new_pos:active {
+  box-shadow: 0 0 20px #000;
+  background: #aaa;
+}
+
+
+*:focus {
+  outline: none;
+}
+
+
+body {
+  overflow: hidden;
+  height: 500px;
+}
+
+.new_pos {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  cursor: pointer;
+}
+
