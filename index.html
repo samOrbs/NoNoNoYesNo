@@ -449,6 +449,12 @@
 					}
 
 
+					function getRandomInt(min, max) {
+    				
+    				return Math.floor(Math.random() * (max - min + 1)) + min;
+					
+					}
+
 					////// find right tongue to milk
 
 					function onDocumentMouseDown( event ) {
@@ -460,18 +466,12 @@
 
 						var intersects = raycaster.intersectObjects( objects );
 
-						var snd = [soundFive,soundSix,soundSeven,soundEight];
+						var snd = [soundFive,soundSix,soundSeven,soundEight] // array of soundfiles defined starting on line 160
 
-						for (var i = 0; intersects.length > 0; i++) {
-							
-							snd[i].play();
-							
-							if(i > 4){
-							
-							i = 0;
-							
-							}
-							}
+						if(intersects.length > 0){
+							x = getRandomInt(0,4);
+							snd[x].play();
+						}
 						}
 
 
